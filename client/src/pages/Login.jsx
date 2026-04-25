@@ -31,7 +31,6 @@ export default function Login() {
   return (
     <AuthCard
       title="Welcome back"
-      subtitle="Sign in to continue. Your account is stored securely in MongoDB."
       footer={
         <div className="flex items-center justify-between">
           <span className="text-slate-400">New here?</span>
@@ -62,16 +61,13 @@ export default function Login() {
           <Link className="text-slate-300 hover:text-slate-100" to="/forgot-password">
             Forgot password?
           </Link>
-          <span className="text-slate-500">JWT session</span>
         </div>
 
         <Button type="submit" disabled={loading || !email || !password}>
           {loading ? "Signing in..." : "Sign in"}
         </Button>
 
-        <div className="text-xs text-slate-500">
-          Tip: set <code className="text-slate-300">VITE_API_BASE</code> if your API runs on a different host.
-        </div>
+        
       </form>
     </AuthCard>
   );
