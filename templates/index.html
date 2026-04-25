@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Whisper Studio — Smart Audio Transcription</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='30%25' cy='20%25' r='80%25'%3E%3Cstop offset='0%25' stop-color='%23bfa8ff'/%3E%3Cstop offset='55%25' stop-color='%236c5ce7'/%3E%3Cstop offset='100%25' stop-color='%230b0a17'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Cpath d='M32 14c-4.4 0-8 3.6-8 8v12c0 4.4 3.6 8 8 8s8-3.6 8-8V22c0-4.4-3.6-8-8-8Z' fill='rgba(255,255,255,0.92)'/%3E%3Cpath d='M46 30v4c0 7.7-6.3 14-14 14s-14-6.3-14-14v-4' fill='none' stroke='rgba(255,255,255,0.92)' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M32 48v6' fill='none' stroke='rgba(255,255,255,0.92)' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M24 54h16' fill='none' stroke='rgba(255,255,255,0.92)' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
   <!-- Fonts: Syne + DM Mono for editorial yet modern feel -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,6 +74,31 @@
       font-weight: 500;
       color: #cdbfff;
       margin-bottom: 1.2rem;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 0.5rem;
+    }
+
+    .logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 30% 20%, rgba(191, 168, 255, 0.95) 0%, rgba(108, 92, 231, 0.9) 55%, rgba(11, 10, 23, 1) 100%);
+      border: 1px solid rgba(180, 158, 255, 0.35);
+      box-shadow: 0 16px 28px -18px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.04) inset;
+    }
+
+    .logo svg {
+      width: 32px;
+      height: 32px;
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,0.35));
     }
 
     h1 {
@@ -219,6 +245,51 @@
       text-transform: uppercase;
     }
 
+    /* mode selector */
+    .mode-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0.2rem 0 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .mode-label {
+      font-size: 0.7rem;
+      color: #a6a6d3;
+      letter-spacing: 0.02em;
+    }
+
+    .segmented {
+      background: #0d0d1c;
+      border: 1px solid #3a3a68;
+      border-radius: 999px;
+      padding: 4px;
+      display: inline-flex;
+      gap: 4px;
+    }
+
+    .seg-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.45rem 0.75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: #d9d9ff;
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, transform 0.15s;
+    }
+
+    .seg-btn[aria-pressed="true"] {
+      background: linear-gradient(115deg, rgba(108, 92, 231, 0.55), rgba(160, 126, 255, 0.55));
+      border: 1px solid rgba(180, 158, 255, 0.35);
+      color: #ffffff;
+    }
+
+    .seg-btn:active { transform: scale(0.99); }
+
     .divider-custom::before,
     .divider-custom::after {
       content: "";
@@ -288,6 +359,31 @@
       margin-bottom: 1.4rem;
       border: 1px solid #37376b;
       display: none;
+    }
+
+    /* audio preview */
+    .audio-preview {
+      background: #0b0b19;
+      border: 1px solid #2e2e56;
+      border-radius: 1.2rem;
+      padding: 0.8rem 0.9rem;
+      margin: -0.6rem 0 1.1rem;
+      display: none;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .audio-preview.visible { display: flex; }
+
+    .audio-preview .audio-meta {
+      font-size: 0.7rem;
+      color: #a9a9d8;
+      white-space: nowrap;
+    }
+
+    .audio-preview audio {
+      width: 100%;
+      accent-color: #a07eff;
     }
 
     .file-preview.visible {
@@ -459,7 +555,17 @@
     <div class="badge">
       <span>⚡</span> whisper · smart diarization ready
     </div>
-    <h1>Whisper Studio</h1>
+    <div class="brand-row" aria-label="Whisper Studio">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 3a3.25 3.25 0 0 0-3.25 3.25v6.25A3.25 3.25 0 0 0 12 15.75a3.25 3.25 0 0 0 3.25-3.25V6.25A3.25 3.25 0 0 0 12 3Z" fill="rgba(255,255,255,0.92)"/>
+          <path d="M17.5 11.25v1.25A5.5 5.5 0 0 1 12 18a5.5 5.5 0 0 1-5.5-5.5v-1.25" stroke="rgba(255,255,255,0.92)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M12 18v2.2" stroke="rgba(255,255,255,0.92)" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M9.1 20.2h5.8" stroke="rgba(255,255,255,0.92)" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h1>Whisper Studio</h1>
+    </div>
     <div class="subhead">speech to text · noise-resilient · auto language detect</div>
   </div>
 
@@ -492,6 +598,14 @@
 
     <div class="divider-custom"><span>⤚ or import file (AI pre-check) ⤛</span></div>
 
+    <div class="mode-row" aria-label="Choose transcription mode">
+      <div class="mode-label">Mode</div>
+      <div class="segmented" role="group" aria-label="Transcription mode">
+        <button class="seg-btn" id="modeTranscribe" aria-pressed="true" type="button">✨ Transcribe</button>
+        <button class="seg-btn" id="modeTranslate" aria-pressed="false" type="button">🌍 Translate → EN</button>
+      </div>
+    </div>
+
     <!-- upload zone with smart validation -->
     <div class="upload-area" id="uploadArea">
       <input type="file" id="audioUpload" accept="audio/*,video/mp4,.wav,.mp3,.m4a,.ogg,.flac,.webm">
@@ -505,6 +619,11 @@
       <span class="file-name" id="previewFileName">—</span>
       <span class="file-meta" id="previewFileSize"></span>
       <button class="remove-file" id="removeFileBtn">✕</button>
+    </div>
+
+    <div class="audio-preview" id="audioPreview">
+      <div class="audio-meta" id="audioMeta">▶ preview</div>
+      <audio id="audioPlayer" controls preload="metadata"></audio>
     </div>
 
     <button class="transcribe-btn" id="transcribeAction" disabled>
@@ -553,6 +672,11 @@
   const copyBtn = document.getElementById('copyResultBtn');
   const downloadBtn = document.getElementById('downloadTxtBtn');
   const clearAll = document.getElementById('clearAllBtn');
+  const modeTranscribe = document.getElementById('modeTranscribe');
+  const modeTranslate = document.getElementById('modeTranslate');
+  const audioPreview = document.getElementById('audioPreview');
+  const audioPlayer = document.getElementById('audioPlayer');
+  const audioMeta = document.getElementById('audioMeta');
 
   // state
   let mediaRecorder = null;
@@ -562,8 +686,38 @@
   let recordingTimer = null;
   let secondsRecorded = 0;
   let isRecording = false;
+  let taskMode = 'transcribe';
+  let previewUrl = null;
   const MAX_SEC = 120;
   const circumference = 2 * Math.PI * 62; // ≈389.56
+
+  function setTaskMode(mode) {
+    taskMode = mode === 'translate' ? 'translate' : 'transcribe';
+    modeTranscribe.setAttribute('aria-pressed', taskMode === 'transcribe' ? 'true' : 'false');
+    modeTranslate.setAttribute('aria-pressed', taskMode === 'translate' ? 'true' : 'false');
+    transcribeBtn.querySelector('.btn-label').innerText =
+      taskMode === 'translate' ? '🌍 translate with AI' : '✨ transcribe with AI';
+  }
+
+  function clearPreviewUrl() {
+    if (previewUrl) {
+      try { URL.revokeObjectURL(previewUrl); } catch (e) {}
+      previewUrl = null;
+    }
+  }
+
+  function setAudioPreview(blobOrFile, label) {
+    clearPreviewUrl();
+    if (!blobOrFile) {
+      audioPlayer.removeAttribute('src');
+      audioPreview.classList.remove('visible');
+      return;
+    }
+    previewUrl = URL.createObjectURL(blobOrFile);
+    audioPlayer.src = previewUrl;
+    audioMeta.innerText = label || '▶ preview';
+    audioPreview.classList.add('visible');
+  }
 
   function setProgress(percent) {
     const offset = circumference * (1 - Math.min(1, percent));
@@ -587,6 +741,7 @@
     if (uploadedFile) uploadedFile = null;
     fileInput.value = '';
     filePreviewDiv.classList.remove('visible');
+    setAudioPreview(null);
     updateTranscribeState();
   }
 
@@ -596,7 +751,7 @@
     isRecording = false;
     micCore.classList.remove('recording-active');
     recStatus.innerText = 'saved ✓ · ready';
-    setTimeout(() => { if (!isRecording && !mediaRecorder?.state === 'recording') recStatus.innerText = '🎙️ ready · smart mode'; }, 2000);
+    setTimeout(() => { if (!isRecording && mediaRecorder?.state !== 'recording') recStatus.innerText = '🎙️ ready · smart mode'; }, 2000);
   }
 
   async function startMicRecording() {
@@ -612,7 +767,10 @@
         recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
         stream.getTracks().forEach(t => t.stop());
         updateTranscribeState();
-        if (recordedBlob && recordedBlob.size > 0) recStatus.innerText = 'recording ready ✅';
+        if (recordedBlob && recordedBlob.size > 0) {
+          recStatus.innerText = 'recording ready ✅';
+          setAudioPreview(recordedBlob, '🎙️ mic recording');
+        }
         else recStatus.innerText = '⚠️ empty recording';
       };
       mediaRecorder.start(200);
@@ -637,6 +795,9 @@
 
   micCore.addEventListener('click', () => startMicRecording());
 
+  modeTranscribe.addEventListener('click', () => setTaskMode('transcribe'));
+  modeTranslate.addEventListener('click', () => setTaskMode('translate'));
+
   // File upload with smart validation
   function handleFileSelection(file) {
     if (!file) return;
@@ -652,6 +813,7 @@
     const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
     previewFileSize.innerText = `${sizeMB} MB`;
     filePreviewDiv.classList.add('visible');
+    setAudioPreview(uploadedFile, '📁 selected file');
     updateTranscribeState();
     recStatus.innerText = 'file loaded · ready';
     setTimeout(() => { if (!isRecording) recStatus.innerText = '🎙️ ready · smart mode'; }, 2000);
@@ -671,6 +833,7 @@
     recordedBlob = null;
     fileInput.value = '';
     filePreviewDiv.classList.remove('visible');
+    setAudioPreview(null);
     updateTranscribeState();
   });
 
@@ -690,6 +853,7 @@
     const formData = new FormData();
     let filename = uploadedFile ? uploadedFile.name : 'mic_recording.webm';
     formData.append('audio', audioBlob, filename);
+    formData.append('task', taskMode);
     try {
       const response = await fetch('/transcribe', { method: 'POST', body: formData });
       const data = await response.json();
@@ -737,6 +901,7 @@
     uploadedFile = null;
     fileInput.value = '';
     filePreviewDiv.classList.remove('visible');
+    setAudioPreview(null);
     resultCard.classList.remove('visible');
     errorBox.classList.remove('show');
     timerDisplay.innerText = '00:00';
@@ -750,6 +915,9 @@
     micCore.classList.remove('recording-active');
     updateTranscribeState();
   });
+
+  // init
+  setTaskMode('transcribe');
 </script>
 </body>
 </html>
