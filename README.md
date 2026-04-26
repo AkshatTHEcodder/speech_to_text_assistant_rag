@@ -89,3 +89,14 @@ Once all three servers are running:
 1. Open your browser and go to `http://localhost:5173`
 2. The Vite proxy will automatically route authentication requests to the Node server and transcription requests to the Flask server.
 
+## Security & Production
+This project is production-hardened with the following features:
+- **Rate Limiting**: Protects STT and Auth endpoints from abuse using `flask-limiter` and `express-rate-limit`.
+- **Security Headers**: Implements `helmet` for Node and custom security headers for Flask (CSP, HSTS, etc.).
+- **Environment Driven**: Fully configurable via `.env` files for easy deployment.
+- **Production Ready**: Includes a `Procfile` and `gunicorn` support for deployment on platforms like Render or Heroku.
+
+## Repository Notes
+- **Git Ignore**: Environment files (`.env`), virtual environments (`venv/`), and dependency folders (`node_modules/`) are excluded from Git to keep the repository clean and secure.
+- **Templates**: Use the provided `.env.example` files to set up your local environment.
+
