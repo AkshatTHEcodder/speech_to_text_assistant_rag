@@ -1,6 +1,8 @@
 flask>=2.3.0
 flask-cors
+flask-limiter
 openai-whisper>=20231117
 torch
 numpy
 soundfile
+gunicorn
