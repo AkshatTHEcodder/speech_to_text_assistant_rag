@@ -1,0 +1,98 @@
+# ─── Python ───────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.Python
+
+# Virtual Environment
+venv/
+env/
+.venv/
+ENV/
+
+# Python packaging
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# ─── Node / Frontend (client/) ────────────────────────────
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# Build output
+dist/
+client/dist/
+build/
+
+# Vite cache
+.vite/
+client/.vite/
+
+# ─── Environment Variables ────────────────────────────────
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+client/.env
+server/.env
+
+# ─── Logs ─────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ─── OS Files ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── IDE / Editor ─────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.user
+*.workspace
+
+# ─── Testing & Coverage ───────────────────────────────────
+coverage/
+.coverage
+htmlcov/
+.pytest_cache/
+.nyc_output/
+# venv
+.venv
+/venv
+# ─── Package locks (keep one, ignore others) ──────────────
+# Uncomment if using yarn/pnpm instead of npm:
+# package-lock.json
+
+# ─── Misc ─────────────────────────────────────────────────
+*.bak
+*.tmp
+*.temp
+.cache/
+*.mp3
+*.wav
+*.m4a
+*.webm
+*.ogg
+*.flac
+*.mp4

@@ -1,13 +1,16 @@
 import os
 import tempfile
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 import whisper
 
 app = Flask(__name__)
+CORS(app) # Enable CORS for all routes
 
-# 🔥 Load Whisper model (better accuracy)
-print("Loading Whisper model...")
-model = whisper.load_model("base") 
+import torch
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Loading Whisper model on {device}...")
+model = whisper.load_model("base", device=device) 
 print("Model loaded successfully!")
 
 ALLOWED_EXTENSIONS = {"wav", "mp3", "m4a", "ogg", "webm", "flac", "mp4"}
@@ -54,8 +57,9 @@ def transcribe():
         language = result.get("language", "unknown")
 
         duration = 0
-        if result.get("segments"):
-            duration = result["segments"][-1].get("end", 0)
+        segments = result.get("segments")
+        if segments:
+            duration = segments[-1].get("end", 0)
 
         return jsonify({
             "transcript": transcript,

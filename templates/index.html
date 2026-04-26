@@ -717,6 +717,13 @@
     audioPlayer.src = previewUrl;
     audioMeta.innerText = label || '▶ preview';
     audioPreview.classList.add('visible');
+    
+    // Smart duration estimation from audio metadata
+    audioPlayer.onloadedmetadata = () => {
+      if (audioPlayer.duration && audioPlayer.duration !== Infinity) {
+        durationMeta.innerText = `⏱️ ${Math.round(audioPlayer.duration)}s`;
+      }
+    };
   }
 
   function setProgress(percent) {
@@ -761,7 +768,15 @@
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       audioChunks = [];
-      mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+      
+      // Smart mimeType selection for browser compatibility
+      const mimeType = MediaRecorder.isTypeSupported('audio/webm') 
+        ? 'audio/webm' 
+        : MediaRecorder.isTypeSupported('audio/mp4') 
+          ? 'audio/mp4' 
+          : 'audio/ogg';
+          
+      mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
       mediaRecorder.onstop = () => {
         recordedBlob = new Blob(audioChunks, { type: 'audio/webm' });
@@ -861,7 +876,10 @@
       if (data.transcript) {
         transcriptDiv.innerText = data.transcript;
         langMeta.innerHTML = `🌐 ${(data.language || 'en').toUpperCase()} ${data.language === 'en' ? '(smart)' : ''}`;
-        durationMeta.innerText = `⏱️ ${data.duration || Math.floor((audioBlob.size / 16000) / 2)}s`;
+        
+        // Use duration from server, fallback to player duration
+        const finalDuration = data.duration || (audioPlayer.duration !== Infinity ? Math.round(audioPlayer.duration) : 0);
+        durationMeta.innerText = `⏱️ ${finalDuration}s`;
         resultCard.classList.add('visible');
       } else throw new Error('empty response');
     } catch (err) {

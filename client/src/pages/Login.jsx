@@ -20,7 +20,7 @@ export default function Login() {
       const data = await api("/api/auth/login", { method: "POST", body: { email, password } });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      nav("/login", { replace: true });
+      nav("/dashboard", { replace: true });
     } catch (err) {
       setError(err.message || "Login failed");
     } finally {

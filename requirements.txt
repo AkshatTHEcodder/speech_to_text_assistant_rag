@@ -1,8 +1,6 @@
-(
-echo flask>=2.3.0
-echo flask-cors
-echo openai-whisper>=20231117
-echo torch
-echo numpy
-echo soundfile
-) > requirements.txt
+flask>=2.3.0
+flask-cors
+openai-whisper>=20231117
+torch
+numpy
+soundfile
